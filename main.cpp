@@ -864,7 +864,6 @@ draw(std::vector<Bezier_curve> curves, CDT T, int argc, char *argv[]){
     
     QLabel myLabel;
     myLabel.resize(1000,1000);
-    // pixmap = pixmap.scaled(750, 750);
     myLabel.setPixmap(pixmap);
     myLabel.setWindowTitle("Bezier guarding viewer");
     myLabel.show();
@@ -933,9 +932,21 @@ draw(std::vector<Bezier_curve> curves, int argc, char *argv[]){
 
     std::cout << "[OK]" << std::endl;
   
+    std::cout << "[OK]" << std::endl;
+  
+    std::stringstream a;
+    a << "output/";
+    auto input = argv[1];
+    for(int i=0; i<std::strlen(input); i++){
+        if (std::isdigit(input[i])) a << input[i];
+    }
+    a << "-map.png";
+    const std::string tmp = a.str();
+    pixmap.save(tmp.c_str());
+    
     QLabel myLabel;
-    myLabel.resize(500,500);
-    pixmap = pixmap.scaled(500, 500);
+    myLabel.resize(1000,1000);
+    // pixmap = pixmap.scaled(500, 500);
     myLabel.setPixmap(pixmap);
     
     myLabel.setWindowTitle("Bezier guarding viewer");
@@ -998,7 +1009,7 @@ int main (int argc, char *argv[])
     T = refine_encroached(T, &curves, corners);
     T = refine_bad_triangle(T, &curves, corners);
 
-    T = split_constrained_triangles(T);
+    // T = split_constrained_triangles(T);
     std::cout << "Number of curves: " << curves.size() << std::endl;
     std::cout << "Number of vertices: " << T.number_of_vertices() << std::endl;
     std::cout << "Number of triangles: " << T.number_of_faces() << std::endl;
